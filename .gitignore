@@ -5,5 +5,3 @@ sample_RCNN.py
 .worker
 data
 output_imgs
-train
-test
