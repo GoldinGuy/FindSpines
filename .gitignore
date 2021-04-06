@@ -4,4 +4,3 @@ sample_RCNN.py
 .modules
 .worker
 data
-output_imgs
