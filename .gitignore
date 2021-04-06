@@ -1,2 +1,9 @@
+sample_RCNN.py
+.env
+.requirements
+.modules
+.worker
 data
-images
+output_imgs
+train
+test
