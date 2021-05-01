@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FileUploader } from "../components";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import { downloadAllFiles } from "../utils/gen";
@@ -67,20 +67,28 @@ const SpineDetectionPage = () => {
 			<div>
 				<div className="overflow-auto py-3 px-8 w-full h-full flex flex-col">
 					{numToAnnotate > 0 && (
-						<h1 className="py-4 pb-6 font-semibold sm:text-lg text-gray-900">
-							{!loading
-								? "All Annotated!"
-								: `${numAnnotated} of ${numToAnnotate}`}
-						</h1>
+						<div className="pb-10">
+							<h1 className="py-2 font-semibold sm:text-lg text-gray-900">
+								{!loading
+									? "All Annotated!"
+									: `${numAnnotated} of ${numToAnnotate}`}
+							</h1>
+							{!loading && (
+								<p className="text-sm">(Double Click to open Image)</p>
+							)}
+						</div>
 					)}
 					{responseFiles.length > 0 && (
 						<ul id="gallery" className="flex flex-1 flex-wrap -m-1">
 							{responseFiles.map((file, idx) => {
 								return (
 									<li
-										className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8"
+										className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 m-auto"
 										id={URL.createObjectURL(file)}
 										key={idx}
+										onDoubleClick={() =>
+											window.open(URL.createObjectURL(file), "_blank")
+										}
 									>
 										<article
 											tabIndex={0}
@@ -119,11 +127,11 @@ const SpineDetectionPage = () => {
 													<button
 														className="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md"
 														onClick={() => {
-															// setFiles(files =>
-															// 	files.filter((file, i) => {
-															// 		return idx !== i;
-															// 	})
-															// );
+															setResponse(files =>
+																files.filter((file, i) => {
+																	return idx !== i;
+																})
+															);
 														}}
 													>
 														<svg

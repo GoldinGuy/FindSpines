@@ -65,7 +65,6 @@ const FileUploader = ({
 		let n = Math.floor(Math.random() * 205) + 1;
 		let fileName = (new Array(len + 1).join("0") + n).slice(-len);
 		fetch(`./test/img/${fileName}.jpg`).then(response => {
-			console.log(response);
 			response.blob().then(blob => {
 				let file = new File([blob], `${fileName}.jpg`, { type: "image/jpeg" }); //{ type: blob.type });
 				addFiles(file);
@@ -157,7 +156,7 @@ const FileUploader = ({
 								{files.map((file, idx) => {
 									return (
 										<li
-											className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24 md:h-32"
+											className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-28 md:h-36"
 											id={URL.createObjectURL(file)}
 											key={idx}
 										>
