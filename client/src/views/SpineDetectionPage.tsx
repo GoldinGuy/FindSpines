@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { FileUploader } from "../components";
-import PropagateLoader from "react-spinners/PropagateLoader";
+import PacmanLoader from "react-spinners/PacmanLoader";
 import { downloadAllFiles } from "../utils/gen";
 
 const SpineDetectionPage = () => {
 	const [responseFiles, setResponse] = useState<File[]>([]);
 	const [loading, setLoading] = useState(false);
+	const [numAnnotated, setNumAnnotated] = useState(0);
+	const [numToAnnotate, setToAnnotate] = useState(0);
 
 	// useEffect(() => {
 	// 	console.log(responseFiles);
@@ -13,6 +15,8 @@ const SpineDetectionPage = () => {
 
 	const handleAnnotateSpines = (toAnnotate: File[]) => {
 		if (toAnnotate.length > 0) {
+			setNumAnnotated(0);
+			setToAnnotate(toAnnotate.length);
 			setLoading(true);
 			for (let i = 0; i < toAnnotate.length; i++) {
 				const data = new FormData();
@@ -27,6 +31,7 @@ const SpineDetectionPage = () => {
 						let file = new File([blob], `file${i}`, {
 							type: blob.type
 						});
+						setNumAnnotated(numAnnotated => numAnnotated + 1);
 						setResponse(response => [...response, file]);
 						if (i >= toAnnotate.length - 1) {
 							setLoading(false);
@@ -54,13 +59,21 @@ const SpineDetectionPage = () => {
 					<FileUploader handleAnnotateSpines={handleAnnotateSpines} />
 				</>
 			)}
-			{responseFiles.length > 0 && (
-				<div>
-					<div className="overflow-auto py-3 px-8 w-full h-full flex flex-col">
+			{loading && (
+				<div className="flex justify-center pb-10 -ml-16">
+					<PacmanLoader color={"#14b8a6"} loading={loading} size={32} />
+				</div>
+			)}
+			<div>
+				<div className="overflow-auto py-3 px-8 w-full h-full flex flex-col">
+					{numToAnnotate > 0 && (
 						<h1 className="py-4 pb-6 font-semibold sm:text-lg text-gray-900">
-							All Annotated!
+							{!loading
+								? "All Annotated!"
+								: `${numAnnotated} of ${numToAnnotate}`}
 						</h1>
-
+					)}
+					{responseFiles.length > 0 && (
 						<ul id="gallery" className="flex flex-1 flex-wrap -m-1">
 							{responseFiles.map((file, idx) => {
 								return (
@@ -132,46 +145,33 @@ const SpineDetectionPage = () => {
 									</li>
 								);
 							})}
-							{/* {responseFiles.map((file, idx) => {
-							// console.log(file.name);
-							return (
-								<img
-									src={URL.createObjectURL(file)}
-									alt={file.name}
-									title={file.name}
-									key={idx}
-									className="m-auto rounded-sm"
-								/>
-							);
-						})} */}
 						</ul>
-					</div>
-
-					<button
-						id="submit"
-						onClick={() => {
-							downloadAllFiles(responseFiles);
-						}}
-						className="my-10 mx-4 px-3 py-2 rounded-md  bg-teal-500 hover:bg-teal-400 text-white focus:shadow-outline focus:outline-none"
-					>
-						Download Files
-					</button>
-					<button
-						id="submit"
-						onClick={() => {
-							setResponse([]);
-						}}
-						className="my-10 mx-4 m px-3 py-2 rounded-md bg-gray-400 hover:bg-gray-300 text-white focus:shadow-outline focus:outline-none"
-					>
-						Find More Spines
-					</button>
+					)}
 				</div>
-			)}
-			{loading && (
-				<div className="m-auto mt-10 ">
-					<PropagateLoader color={"#14b8a6"} loading={loading} size={25} />
-				</div>
-			)}
+				{responseFiles.length > 0 && (
+					<>
+						<button
+							id="submit"
+							onClick={() => {
+								downloadAllFiles(responseFiles);
+							}}
+							className="my-10 mx-4 px-3 py-2 rounded-md  bg-teal-500 hover:bg-teal-400 text-white focus:shadow-outline focus:outline-none"
+						>
+							Download Files
+						</button>
+						<button
+							id="submit"
+							onClick={() => {
+								setResponse([]);
+								setToAnnotate(0);
+							}}
+							className="my-10 mx-4 m px-3 py-2 rounded-md bg-gray-400 hover:bg-gray-300 text-white focus:shadow-outline focus:outline-none"
+						>
+							Find More Spines
+						</button>
+					</>
+				)}
+			</div>
 		</div>
 	);
 };

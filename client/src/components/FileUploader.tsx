@@ -64,7 +64,7 @@ const FileUploader = ({
 		let len = 6;
 		let n = Math.floor(Math.random() * 205) + 1;
 		let fileName = (new Array(len + 1).join("0") + n).slice(-len);
-		fetch(`../assets/test/img/${fileName}.jpg`).then(response => {
+		fetch(`./test/img/${fileName}.jpg`).then(response => {
 			console.log(response);
 			response.blob().then(blob => {
 				let file = new File([blob], `${fileName}.jpg`, { type: "image/jpeg" }); //{ type: blob.type });
@@ -129,7 +129,7 @@ const FileUploader = ({
 										onClick={() => {
 											fileInputRef.current?.click();
 										}}
-										className="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none mr-2"
+										className="mt-2 rounded-md px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none mr-2"
 									>
 										Upload file(s)
 									</button>
@@ -138,7 +138,7 @@ const FileUploader = ({
 										onClick={() => {
 											addRandomImg();
 										}}
-										className="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
+										className="mt-2 rounded-md px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
 									>
 										Add random test file
 									</button>
