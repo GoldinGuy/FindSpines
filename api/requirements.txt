@@ -10,5 +10,5 @@ MarkupSafe==1.1.1
 Werkzeug==0.15.6
 pandas==1.2.3
 # tensorflow_gpu==1.15
-tensorflow==2.4.1
+tensorflow==2.1.0
 Pillow==8.2.0
