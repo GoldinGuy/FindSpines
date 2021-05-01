@@ -56,8 +56,83 @@ const SpineDetectionPage = () => {
 			)}
 			{responseFiles.length > 0 && (
 				<div>
-					<div className="flex content-evenly">
-						{responseFiles.map((file, idx) => {
+					<div className="overflow-auto py-3 px-8 w-full h-full flex flex-col">
+						<h1 className="py-4 pb-6 font-semibold sm:text-lg text-gray-900">
+							All Annotated!
+						</h1>
+
+						<ul id="gallery" className="flex flex-1 flex-wrap -m-1">
+							{responseFiles.map((file, idx) => {
+								return (
+									<li
+										className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8"
+										id={URL.createObjectURL(file)}
+										key={idx}
+									>
+										<article
+											tabIndex={0}
+											className="group hasImage w-full h-full rounded-md focus:outline-none focus:shadow-outline bg-gray-100 cursor-pointer relative text-transparent hover:text-white shadow-sm"
+										>
+											<img
+												alt="upload preview"
+												className="img-preview w-full h-full sticky object-cover rounded-md bg-fixed"
+												src={URL.createObjectURL(file)}
+											/>
+
+											<section className="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">
+												<h1 className="flex-1">{file.name}</h1>
+												<div className="flex">
+													<span className="p-1">
+														<i>
+															<svg
+																className="fill-current w-4 h-4 ml-auto pt-"
+																xmlns="http://www.w3.org/2000/svg"
+																width="24"
+																height="24"
+																viewBox="0 0 24 24"
+															>
+																<path d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z" />
+															</svg>
+														</i>
+													</span>
+
+													<p className="p-1 size text-xs">
+														{file.size > 1024
+															? file.size > 1048576
+																? Math.round(file.size / 1048576) + "mb"
+																: Math.round(file.size / 1024) + "kb"
+															: file.size + "b"}
+													</p>
+													<button
+														className="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md"
+														onClick={() => {
+															// setFiles(files =>
+															// 	files.filter((file, i) => {
+															// 		return idx !== i;
+															// 	})
+															// );
+														}}
+													>
+														<svg
+															className="pointer-events-none fill-current w-4 h-4 ml-auto"
+															xmlns="http://www.w3.org/2000/svg"
+															width="24"
+															height="24"
+															viewBox="0 0 24 24"
+														>
+															<path
+																className="pointer-events-none"
+																d="M3 6l3 18h12l3-18h-18zm19-4v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711z"
+															/>
+														</svg>
+													</button>
+												</div>
+											</section>
+										</article>
+									</li>
+								);
+							})}
+							{/* {responseFiles.map((file, idx) => {
 							// console.log(file.name);
 							return (
 								<img
@@ -68,8 +143,10 @@ const SpineDetectionPage = () => {
 									className="m-auto rounded-sm"
 								/>
 							);
-						})}
+						})} */}
+						</ul>
 					</div>
+
 					<button
 						id="submit"
 						onClick={() => {
