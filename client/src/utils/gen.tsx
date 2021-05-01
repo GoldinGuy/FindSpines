@@ -1,33 +1,5 @@
-import { SelectSearchOption } from "react-select-search";
-
-export function shuffle(array: SelectSearchOption[]): SelectSearchOption[] {
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]];
-	}
-	return array;
-}
-
-// https://gist.github.com/danallison/3ec9d5314788b337b682
-export function downloadReadingList(
-	text: string,
-	fileType: string,
-	fileName: string
-): void {
-	var blob = new Blob([text], { type: fileType });
-
-	var a = document.createElement("a");
-	a.download = fileName;
-	a.href = URL.createObjectURL(blob);
-	a.dataset.downloadurl = [fileType, a.download, a.href].join(":");
-	a.style.display = "none";
-	document.body.appendChild(a);
-	a.click();
-	document.body.removeChild(a);
-	setTimeout(function () {
-		URL.revokeObjectURL(a.href);
-	}, 1500);
-}
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 export function boldQuery(str: string, query: string) {
 	const cleanStr = str.replaceAll(".", ". ").replaceAll("  ", " ");
@@ -44,4 +16,19 @@ export function boldQuery(str: string, query: string) {
 		<b>{cleanStr.substr(x, l)}</b>,
 		cleanStr.substr(x + l)
 	];
+}
+
+export function downloadAllFiles(imgFiles: File[]) {
+	var zip = new JSZip();
+	zip.file(
+		"README.txt",
+		"Unzip this folder to access annotated images of dendritic spines\n"
+	);
+	var img = zip.folder("dendrite_spines");
+	for (let file of imgFiles) {
+		img?.file(`${file.name}.jpg`, file.arrayBuffer(), { base64: true });
+	}
+	zip.generateAsync({ type: "blob" }).then(content => {
+		saveAs(content, "dendrite_spines.zip");
+	});
 }

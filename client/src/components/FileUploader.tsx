@@ -1,11 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const FileUploader = ({
-	setResponse,
-	setLoading
+	handleAnnotateSpines
 }: {
-	setResponse: Function;
-	setLoading: Function;
+	handleAnnotateSpines: Function;
 }) => {
 	const [files, setFiles] = useState<File[]>([]);
 	const [isEmpty, setEmpty] = useState(true);
@@ -17,8 +15,12 @@ const FileUploader = ({
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const emptyRef = useRef<HTMLLIElement>(null);
 
+	useEffect(() => {
+		if (files.length < 1) setEmpty(true);
+	}, [files.length]);
+
 	const addFiles = (data: File | File[] | FileList) => {
-		console.log(data);
+		// console.log(data);
 		if ("0" in data) {
 			setFiles(files.concat(Object.values(data)));
 			setEmpty(false);
@@ -29,8 +31,8 @@ const FileUploader = ({
 	};
 
 	// check if a file is being dragged
-	const hasFiles = ({ dataTransfer: { types = [""] } }) => {
-		return types.indexOf("Files") > -1;
+	const hasFiles = (ev: { dataTransfer: { types: any } }) => {
+		return ev.dataTransfer.types.indexOf("Files") > -1;
 	};
 
 	const dropHandler = ev => {
@@ -63,30 +65,12 @@ const FileUploader = ({
 		let n = Math.floor(Math.random() * 205) + 1;
 		let fileName = (new Array(len + 1).join("0") + n).slice(-len);
 		fetch(`../assets/test/img/${fileName}.jpg`).then(response => {
+			console.log(response);
 			response.blob().then(blob => {
 				let file = new File([blob], `${fileName}.jpg`, { type: "image/jpeg" }); //{ type: blob.type });
 				addFiles(file);
 			});
 		});
-	};
-
-	const handleFileSubmit = () => {
-		// var data = new FormData();
-		// for (const file of files) {
-		// 	data.append("file", file);
-		// }
-		const data = new FormData();
-		data.append("file", files[0]);
-		fetch("http://127.0.0.1:5000/annotate_spines", {
-			method: "POST",
-			body: data
-		}).then(response => {
-			response.json().then(body => {
-				setResponse(response);
-			});
-			setLoading(false);
-		});
-		console.log(files[0]);
 	};
 
 	return (
@@ -173,7 +157,7 @@ const FileUploader = ({
 								{files.map((file, idx) => {
 									return (
 										<li
-											className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24"
+											className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24 md:h-32"
 											id={URL.createObjectURL(file)}
 											key={idx}
 										>
@@ -214,9 +198,11 @@ const FileUploader = ({
 														<button
 															className="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md"
 															onClick={() => {
-																let newFiles = files.splice(idx - 1, 1);
-																setFiles(newFiles);
-																if (newFiles.length < 1) setEmpty(true);
+																setFiles(files =>
+																	files.filter((file, i) => {
+																		return idx !== i;
+																	})
+																);
 															}}
 														>
 															<svg
@@ -261,7 +247,11 @@ const FileUploader = ({
 						<footer className="flex justify-end px-8 pb-8 pt-4">
 							<button
 								id="submit"
-								onClick={() => handleFileSubmit()}
+								onClick={() => {
+									handleAnnotateSpines(files);
+									setFiles([]);
+									setEmpty(true);
+								}}
 								className=" px-3 py-1 rounded-md  bg-teal-500 hover:bg-teal-400 text-white focus:shadow-outline focus:outline-none"
 							>
 								Annotate Images
