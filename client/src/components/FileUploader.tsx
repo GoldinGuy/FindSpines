@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import fs from "fs";
 
 const FileUploader = ({
 	setResponse,
@@ -59,14 +58,17 @@ const FileUploader = ({
 		}
 	};
 
-	const addRandomImg = async () => {
+	const addRandomImg = () => {
 		let len = 6;
 		let n = Math.floor(Math.random() * 205) + 1;
 		let fileName = (new Array(len + 1).join("0") + n).slice(-len);
-		let response = await fetch(`../assets/test/img/${fileName}.jpg`);
-		let blob = await response.blob();
-		let file = new File([blob], `${fileName}.jpg`, { type: blob.type });
-		addFiles(file);
+
+		fetch(`../assets/test/img/${fileName}.jpg`).then(response => {
+			response.blob().then(blob => {
+				let file = new File([blob], `${fileName}.jpg`, { type: "image/jpeg" }); //{ type: blob.type });
+				addFiles(file);
+			});
+		});
 	};
 
 	const handleFileSubmit = () => {

@@ -18,7 +18,7 @@ const SpineDetectionPage = () => {
 
 	return (
 		<div className="bg-grayer text-center m-auto">
-			<ImagePanel handleAnnotateSpines={() => {}} />
+			{/* <ImagePanel handleAnnotateSpines={() => {}} /> */}
 			{!loading && (
 				<>
 					<div className="text-center">

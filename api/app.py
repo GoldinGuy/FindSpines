@@ -1,15 +1,15 @@
 # TO RUN:
 # export FLASK_APP=app.py
 # flask run
-
+import numpy as np
+import tensorflow as tf
 from object_detection.utils import visualization_utils as vis_util
 from object_detection.utils import label_map_util
 from object_detection.utils import ops as utils_ops
 from flask import Flask, Blueprint, jsonify, request
 from flask_cors import CORS, cross_origin
 from flask_restful import Resource, Api
-import numpy as np
-import tensorflow as tf
+
 from PIL import Image
 
 MODEL_PATH = './assets/frozen_inference_graph.pb'

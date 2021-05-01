@@ -6,15 +6,15 @@ const HeaderComp = () => {
 	return (
 		<>
 			<div>
-				<header className="z-30 w-full px-3  py-4 sm:px-4 bg-white shadow-sm">
+				<header className="z-30 w-full px-3 bg-teal-400 py-4 sm:px-4 bg-white shadow-sm mb-10">
 					<div className="container flex items-center justify-between mx-auto">
 						<Link to="/" className="flex items-center">
 							<FontAwesomeIcon
 								icon={faMicroscope}
-								className="h-9 text-teal-500"
+								className="h-9 text-white"
 								size="lg"
 							/>
-							<strong className="text-teal-500 pl-3 text-lg">FindSpines</strong>
+							<strong className="text-white pl-3 text-lg">FindSpines</strong>
 						</Link>
 						<div className="flex items-center md:inline-flex">
 							<a
