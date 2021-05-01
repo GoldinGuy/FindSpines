@@ -4,3 +4,4 @@ sample_RCNN.py
 .modules
 .worker
 data
+node_modules
