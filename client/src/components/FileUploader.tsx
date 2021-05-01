@@ -1,6 +1,13 @@
 import { useRef, useState } from "react";
+import fs from "fs";
 
-const FileUploader = ({ setResponse }: { setResponse: Function }) => {
+const FileUploader = ({
+	setResponse,
+	setLoading
+}: {
+	setResponse: Function;
+	setLoading: Function;
+}) => {
 	const [files, setFiles] = useState<File[]>([]);
 	const [isEmpty, setEmpty] = useState(true);
 	const [counter, setCount] = useState(0);
@@ -52,9 +59,27 @@ const FileUploader = ({ setResponse }: { setResponse: Function }) => {
 		}
 	};
 
+	const addRandomImg = async () => {
+		let len = 6;
+		let n = Math.floor(Math.random() * 205) + 1;
+		let fileName = (new Array(len + 1).join("0") + n).slice(-len);
+		let response = await fetch(`../assets/test/img/${fileName}.jpg`);
+		let blob = await response.blob();
+		let file = new File([blob], `${fileName}.jpg`, { type: blob.type });
+		addFiles(file);
+	};
+
 	const handleFileSubmit = () => {
-		alert(`Submitted Files:\n${files}`);
-		console.log(files);
+		fetch("http://127.0.0.1:5000/annotate_spines", {
+			method: "POST",
+			body: JSON.stringify({ files: files })
+		}).then(response => {
+			response.json().then(body => {
+				setResponse(response);
+			});
+			setLoading(false);
+		});
+		console.log(JSON.stringify({ files: files }));
 	};
 
 	return (
@@ -120,7 +145,7 @@ const FileUploader = ({ setResponse }: { setResponse: Function }) => {
 									<button
 										id="button"
 										onClick={() => {
-											fileInputRef.current?.click();
+											addRandomImg();
 										}}
 										className="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
 									>

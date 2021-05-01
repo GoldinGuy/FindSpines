@@ -9,6 +9,6 @@ Jinja2==2.11.3
 MarkupSafe==1.1.1
 Werkzeug==0.15.6
 pandas==1.2.4
-tensorflow_gpu==1.15
+# tensorflow_gpu==1.15
 tensorflow==2.4.1
 Pillow==8.2.0

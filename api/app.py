@@ -1,5 +1,5 @@
-# TO RUN: 
-# export FLASK_APP = app.py
+# TO RUN:
+# export FLASK_APP=app.py
 # flask run
 
 from object_detection.utils import visualization_utils as vis_util
@@ -121,8 +121,7 @@ def run_inference_for_single_image(image, graph):
 # on POST request from React app, attempt to generate reading suggestions
 @app.route('/annotate_spines', methods=['POST'])
 def fileUpload():
-    file = request.files['file']
-    print(file)
+    print(request['files'])
     # image = Image.open(image_path)
     # # the array based representation of the image will be used later in order to prepare the
     # # result image with boxes and labels on it.
