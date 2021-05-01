@@ -2,21 +2,21 @@
 # export FLASK_APP=app.py
 # flask run
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 from object_detection.utils import visualization_utils as vis_util
 from object_detection.utils import label_map_util
 from object_detection.utils import ops as utils_ops
-from flask import Flask, Blueprint, jsonify, request
+from flask import Flask, Blueprint, jsonify, request, send_file
 from flask_cors import CORS, cross_origin
 from flask_restful import Resource, Api
 
 from PIL import Image
 
+LABELS_PATH = './assets/spines_label_map.pbtxt'
 MODEL_PATH = './assets/frozen_inference_graph.pb'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 api = Api(app)
 CORS(app, expose_headers='Authorization')
@@ -39,6 +39,16 @@ if __name__ == "__main__":
 
 # define detection graph and functions
 
+
+def get_num_classes(pbtxt_fname):
+    from object_detection.utils import label_map_util
+    label_map = label_map_util.load_labelmap(LABELS_PATH)
+    categories = label_map_util.convert_label_map_to_categories(
+        label_map, max_num_classes=90, use_display_name=True)
+    category_index = label_map_util.create_category_index(categories)
+    return len(category_index.keys())
+
+
 detection_graph = tf.Graph()
 with detection_graph.as_default():
     od_graph_def = tf.GraphDef()
@@ -47,8 +57,8 @@ with detection_graph.as_default():
         od_graph_def.ParseFromString(serialized_graph)
         tf.import_graph_def(od_graph_def, name='')
 
-
-label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
+num_classes = get_num_classes(LABELS_PATH)
+label_map = label_map_util.load_labelmap(LABELS_PATH)
 categories = label_map_util.convert_label_map_to_categories(
     label_map, max_num_classes=num_classes, use_display_name=True)
 category_index = label_map_util.create_category_index(categories)
@@ -121,30 +131,57 @@ def run_inference_for_single_image(image, graph):
 # on POST request from React app, attempt to generate reading suggestions
 @app.route('/annotate_spines', methods=['POST'])
 def fileUpload():
-    print(request['files'])
-    # image = Image.open(image_path)
-    # # the array based representation of the image will be used later in order to prepare the
-    # # result image with boxes and labels on it.
-    # image_np = load_image_into_numpy_array(image)
-    # # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-    # image_np_expanded = np.expand_dims(image_np, axis=0)
-    # # Actual detection.
-    # output_dict = run_inference_for_single_image(image_np, detection_graph)
-    # # Visualization of the results of a detection.
-    # vis_util.visualize_boxes_and_labels_on_image_array(
-    #     image_np,
-    #     output_dict['detection_boxes'],
-    #     output_dict['detection_classes'],
-    #     output_dict['detection_scores'],
-    #     category_index,
-    #     instance_masks=output_dict.get('detection_masks'),
-    #     use_normalized_coordinates=True,
-    #     line_thickness=2,
-    #     # skip_scores=True,
-    #     skip_labels=True,
+    try:
+        file = request.files['file']
+        print(file)
 
-    # )
-
-    # # filename = secure_filename(file.filename)
-    # annotated_file = file.
-    # return annotated_file
+    # annotated_imgs = []
+    # for item in request.files:
+    #     if(item != 'file'):
+    #         image = Image.open(item)
+    #         # the array based representation of the image will be used later in order to prepare the
+    #         # result image with boxes and labels on it.
+    #         image_np = load_image_into_numpy_array(image)
+    #         # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+    #         image_np_expanded = np.expand_dims(image_np, axis=0)
+    #         # Actual detection.
+    #         output_dict = run_inference_for_single_image(
+    #             image_np, detection_graph)
+    #         # Visualization of the results of a detection.
+    #         vis_util.visualize_boxes_and_labels_on_image_array(
+    #             image_np,
+    #             output_dict['detection_boxes'],
+    #             output_dict['detection_classes'],
+    #             output_dict['detection_scores'],
+    #             category_index,
+    #             instance_masks=output_dict.get('detection_masks'),
+    #             use_normalized_coordinates=True,
+    #             line_thickness=2,
+    #             # skip_scores=True,
+    #             skip_labels=True,
+    #         )
+    #         annotated_imgs.append(image_np)
+    image = Image.open(file)
+    # the array based representation of the image will be used later in order to prepare the
+    # result image with boxes and labels on it.
+    image_np = load_image_into_numpy_array(image)
+    # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+    image_np_expanded = np.expand_dims(image_np, axis=0)
+    # Actual detection.
+    output_dict = run_inference_for_single_image(
+        image_np, detection_graph)
+    # Visualization of the results of a detection.
+    vis_util.visualize_boxes_and_labels_on_image_array(
+        image_np,
+        output_dict['detection_boxes'],
+        output_dict['detection_classes'],
+        output_dict['detection_scores'],
+        category_index,
+        instance_masks=output_dict.get('detection_masks'),
+        use_normalized_coordinates=True,
+        line_thickness=2,
+        # skip_scores=True,
+        skip_labels=True,
+    )
+    # annotated_imgs.append(image_np)
+    return send_file(image_np)

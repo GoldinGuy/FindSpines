@@ -1,5 +1,5 @@
-import React, { FormEvent, useRef, useState } from "react";
-import { ImagePanel, FileUploader } from "../components";
+import React, { useState } from "react";
+import { FileUploader } from "../components";
 import PropagateLoader from "react-spinners/PropagateLoader";
 
 const SpineDetectionPage = () => {
@@ -18,7 +18,6 @@ const SpineDetectionPage = () => {
 
 	return (
 		<div className="bg-grayer text-center m-auto">
-			{/* <ImagePanel handleAnnotateSpines={() => {}} /> */}
 			{!loading && (
 				<>
 					<div className="text-center">

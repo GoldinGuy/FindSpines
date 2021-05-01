@@ -62,7 +62,6 @@ const FileUploader = ({
 		let len = 6;
 		let n = Math.floor(Math.random() * 205) + 1;
 		let fileName = (new Array(len + 1).join("0") + n).slice(-len);
-
 		fetch(`../assets/test/img/${fileName}.jpg`).then(response => {
 			response.blob().then(blob => {
 				let file = new File([blob], `${fileName}.jpg`, { type: "image/jpeg" }); //{ type: blob.type });
@@ -72,16 +71,22 @@ const FileUploader = ({
 	};
 
 	const handleFileSubmit = () => {
+		// var data = new FormData();
+		// for (const file of files) {
+		// 	data.append("file", file);
+		// }
+		const data = new FormData();
+		data.append("file", files[0]);
 		fetch("http://127.0.0.1:5000/annotate_spines", {
 			method: "POST",
-			body: JSON.stringify({ files: files })
+			body: data
 		}).then(response => {
 			response.json().then(body => {
 				setResponse(response);
 			});
 			setLoading(false);
 		});
-		console.log(JSON.stringify({ files: files }));
+		console.log(files[0]);
 	};
 
 	return (
