@@ -21,7 +21,7 @@ const HeaderComp = () => {
 								target="_blank"
 								rel="noreferrer"
 								className="ml-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-r from-teal-500 to-teal-500 hover:from-teal-500 hover:to-teal-500 hover:text-grayest"
-								href="https://github.com/GoldinGuy/ReadMe"
+								href="https://github.com/GoldinGuy/FindSpines"
 							>
 								Star FindSpines{" "}
 								<span className="hidden sm:inline-block px-1"> On GitHub</span>{" "}
