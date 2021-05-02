@@ -13,7 +13,7 @@ const SpineDetectionPage = () => {
 	// 	console.log(responseFiles);
 	// }, [responseFiles]);
 
-	const handleAnnotateSpines = (toAnnotate: File[]) => {
+	const handleAnnotateSpines = async (toAnnotate: File[]) => {
 		if (toAnnotate.length > 0) {
 			setNumAnnotated(0);
 			setToAnnotate(toAnnotate.length);
@@ -21,14 +21,14 @@ const SpineDetectionPage = () => {
 			for (let i = 0; i < toAnnotate.length; i++) {
 				const data = new FormData();
 				data.append("file", toAnnotate[i]);
-				fetch("https://find-spines-api.herokuapp.com/annotate_spines", {
+				await fetch("https://find-spines-api.herokuapp.com/annotate_spines", {
 					//"http://127.0.0.1:5000/annotate_spines",
 					method: "POST",
 					body: data
 				}).then(response => {
-					console.log("response: ", response);
+					// console.log("response: ", response);
 					response.blob().then(blob => {
-						console.log("blob: ", blob);
+						// console.log("blob: ", blob);
 						let file = new File([blob], `file${i}`, {
 							type: blob.type
 						});
@@ -39,6 +39,7 @@ const SpineDetectionPage = () => {
 						}
 					});
 				});
+				console.log(i);
 			}
 		}
 	};

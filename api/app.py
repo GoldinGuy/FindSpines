@@ -14,10 +14,9 @@ from flask_restful import Resource, Api
 from PIL import Image
 
 LABELS_PATH = './assets/spines_label_map.pbtxt'
-# LABELS_URL = 'https://raw.githubusercontent.com/GoldinGuy/FindSpines/master/api/assets/spines_label_map.pbtxt'
 MODEL_PATH = './assets/frozen_inference_graph.pb'
+# LABELS_URL = 'https://raw.githubusercontent.com/GoldinGuy/FindSpines/master/api/assets/spines_label_map.pbtxt'
 # MODEL_URL = 'https://raw.githubusercontent.com/GoldinGuy/FindSpines/master/api/assets/frozen_inference_graph.pb'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 # try:
 #     with open(LABELS_PATH) as f:
@@ -85,10 +84,6 @@ def load_image_into_numpy_array(image):
     (im_width, im_height) = image.size
     return np.array(image.getdata()).reshape(
         (im_height, im_width, 3)).astype(np.uint8)
-
-
-# Size, in inches, of the output images.
-IMAGE_SIZE = (12, 8)
 
 
 def run_inference_for_single_image(image, graph):
