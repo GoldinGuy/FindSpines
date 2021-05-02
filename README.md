@@ -1,14 +1,12 @@
 # Dendrite Spine Identification System
 
-Automating annotating dendritic spines in images using Faster Recurrent Convolutional Neural Networks (Faster RCNNs) & TensorFlow Object Detection. This repo contains the final project for _PSB 4916-001: Honors Directed Ind Research_.
+Automating annotating dendritic spines in images using Faster Recurrent Convolutional Neural Networks (Faster RCNNs) & TensorFlow Object Detection. This repo contains my final project for _PSB 4916-001: Honors Directed Ind Research_.
 
-![image](https://user-images.githubusercontent.com/47064842/114794952-82faee80-9d5b-11eb-9221-2cac37f014a0.png)
+![image](https://user-images.githubusercontent.com/47064842/116799861-03df1780-aaca-11eb-98df-ac11c2dbdf30.png)
 
 ## How It Works
 
 The FindSpines Dendrite Spine Identification System uses Faster RCNNs to annotate images. More info coming soon... (whenever I get a chance to write more here)
-
-![image](https://user-images.githubusercontent.com/47064842/116799861-03df1780-aaca-11eb-98df-ac11c2dbdf30.png)
 
 <!-- ### Data Collection
 
@@ -34,7 +32,11 @@ The function accepts a book, the books dataframe pickled in the preprocessing st
 
 ### Web App
 
-The front-end for this project was built with [React](https://reactjs.org/) and [Typescript](https://www.typescriptlang.org/). The interface was created using [TailwindCSS](https://tailwindcss.com/). The user simply inputs any images via a drag & drop panel or by clicking on an input button, and then clicks _Annotate Spines_. This makes a **POST** request to the FindSpines api in the following format:
+The front-end for this project was built with [React](https://reactjs.org/) and [Typescript](https://www.typescriptlang.org/). The interface was created using [TailwindCSS](https://tailwindcss.com/). The user simply inputs any images via a drag & drop panel or by clicking on an input button, and then clicks _Annotate Spines_.
+
+![image](https://user-images.githubusercontent.com/47064842/116799890-4dc7fd80-aaca-11eb-8b3d-b2c8626ac6d5.png)
+
+This makes a **POST** request to the FindSpines api in the following format:
 
 ```ts
 const data = new FormData();
@@ -46,8 +48,6 @@ fetch("https://API_URL/annotate_spines", {
 ```
 
 The user is then displayed a page of the returned images with annotations. They may download them individually or as a zipped file if so desired.
-
-![image](https://user-images.githubusercontent.com/47064842/116799890-4dc7fd80-aaca-11eb-8b3d-b2c8626ac6d5.png)
 
 ### API
 
