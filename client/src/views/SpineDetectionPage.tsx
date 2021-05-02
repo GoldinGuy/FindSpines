@@ -34,9 +34,11 @@ const SpineDetectionPage = () => {
 						});
 						setNumAnnotated(numAnnotated => numAnnotated + 1);
 						setResponse(response => [...response, file]);
-						if (i >= toAnnotate.length - 1) {
-							setLoading(false);
-						}
+						setTimeout(() => {
+							if (i >= toAnnotate.length - 1) {
+								setLoading(false);
+							}
+						}, 4000);
 					});
 				});
 				console.log(i);

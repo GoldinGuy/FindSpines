@@ -1,5 +1,5 @@
 # TO RUN:
-# export FLASK_APP=app.py
+# export FLASK_APP=main.py
 # flask run
 import io
 import numpy as np

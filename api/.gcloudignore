@@ -1,0 +1,4 @@
+.slugignore
+runtime.txt
+wsgi.py
+Procfile
