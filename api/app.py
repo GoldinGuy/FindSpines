@@ -3,6 +3,7 @@
 # flask run
 import io
 import numpy as np
+import requests
 import tensorflow.compat.v1 as tf
 from object_detection.utils import visualization_utils as vis_util
 from object_detection.utils import label_map_util
@@ -11,15 +12,32 @@ from flask import Flask, Blueprint, jsonify, request, send_file
 from flask_cors import CORS, cross_origin
 from flask_restful import Resource, Api
 from PIL import Image
+from waitress import serve
 
 LABELS_PATH = './assets/spines_label_map.pbtxt'
+LABELS_URL = 'https://raw.githubusercontent.com/GoldinGuy/FindSpines/master/api/assets/spines_label_map.pbtxt'
 MODEL_PATH = './assets/frozen_inference_graph.pb'
+MODEL_URL = 'https://raw.githubusercontent.com/GoldinGuy/FindSpines/master/api/assets/frozen_inference_graph.pb'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
-app = Flask(__name__)
+try:
+    with open(LABELS_PATH) as f:
+        print('labels file exists')
+except IOError:
+    print('generated labels file')
+    r = requests.get(LABELS_URL, allow_redirects=True)
 
+try:
+    with open(MODEL_PATH) as f:
+        print('labels file exists')
+except IOError:
+    r = requests.get(MODEL_URL, allow_redirects=True)
+    open(MODEL_PATH, 'wb').write(r.content)
+
+
+app = Flask(__name__)
 api = Api(app)
-CORS(app, expose_headers=["Content-Disposition", ])
+CORS(app, expose_headers=["Content-Disposition"])
 
 
 class status(Resource):

@@ -47,11 +47,11 @@ const FileUploader = ({
 		if (!hasFiles(e)) {
 			return;
 		}
-		counter + 1 && overlayRef.current?.classList.add("draggedover");
+		// counter + 1 && overlayRef.current?.classList.add("draggedover");
 	};
 
 	const dragLeaveHandler = e => {
-		1 > counter - 1 && overlayRef.current?.classList.remove("draggedover");
+		// 1 > counter - 1 && overlayRef.current?.classList.remove("draggedover");
 	};
 
 	const dragOverHandler = e => {
@@ -75,7 +75,7 @@ const FileUploader = ({
 	return (
 		<>
 			<div className="bg-grayer h-screen w-screen sm:px-8 md:px-16 sm:py-8">
-				<main className="container mx-auto max-w-screen-lg h-full">
+				<main className="container mx-auto max-w-screen-lg h-full pb-20">
 					{/* <!-- file upload modal --> */}
 					<article
 						aria-label="File Upload Modal"
@@ -144,9 +144,10 @@ const FileUploader = ({
 								</div>
 							</header>
 
-							<h1 className="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
+							<h1 className="pt-6 pb-1 font-semibold sm:text-lg text-gray-900">
 								To Be Annotated
 							</h1>
+							<p className="pb-5 text-sm text-gray-900">(Scroll to start)</p>
 
 							<ul
 								id="gallery"

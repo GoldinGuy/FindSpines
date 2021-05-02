@@ -47,13 +47,13 @@ const SpineDetectionPage = () => {
 			{!loading && responseFiles.length === 0 && (
 				<>
 					<div className="text-center">
-						<h2 className="text-3xl text-grayest font-bold">
+						<h2 className="text-3xl text-grayest font-bold mx-4">
 							Find Dendritic Spines In Images
 						</h2>
 						<p className="text-xl text-grayest mx-4 sm:mx-28 md:mx-40 my-6">
 							Quickly annotate dendritic spines in two-photon microscopy images
 							using the power of <br />
-							<strong>Faster Recurrent Convoluntional Neural Networks</strong>
+							<strong>Faster Recurrent Convolutional Neural Networks</strong>
 						</p>
 					</div>
 					<FileUploader handleAnnotateSpines={handleAnnotateSpines} />
@@ -79,11 +79,14 @@ const SpineDetectionPage = () => {
 						</div>
 					)}
 					{responseFiles.length > 0 && (
-						<ul id="gallery" className="flex flex-1 flex-wrap -m-1">
+						<ul
+							id="gallery"
+							className="flex flex-1 flex-wrap -m-1 justify-center content-evenly"
+						>
 							{responseFiles.map((file, idx) => {
 								return (
 									<li
-										className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 m-auto"
+										className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-48 lg:h-56"
 										id={URL.createObjectURL(file)}
 										key={idx}
 										onDoubleClick={() =>
