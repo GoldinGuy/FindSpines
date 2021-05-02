@@ -7,4 +7,4 @@ gunicorn==19.9.0
 # tensorflow==2.5.0rc1
 tensorflow-cpu==2.5.0rc1
 Pillow==8.2.0
-
+matplotlib==3.4.1
