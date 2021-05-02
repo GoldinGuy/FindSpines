@@ -5,6 +5,6 @@ Flask-RESTful==0.3.8
 gunicorn==19.9.0
 # tensorflow_gpu==1.15
 # tensorflow==2.5.0rc1
-tensorflow-cpu==2.4.1
+tensorflow-cpu==2.5.0rc1
 Pillow==8.2.0
 
