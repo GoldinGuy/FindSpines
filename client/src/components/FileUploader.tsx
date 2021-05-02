@@ -141,6 +141,10 @@ const FileUploader = ({
 									>
 										Add random test file
 									</button>
+									<p className="pt-4 px-2 text-sm text-gray-900">
+										This is a proof of concept. To avoid crashing the api,
+										please only test 2-3 images at a time.
+									</p>
 								</div>
 							</header>
 

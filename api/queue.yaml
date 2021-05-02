@@ -1,0 +1,3 @@
+- name: annotate_spines
+  rate: 1/s
+  max_concurrent_requests: 2

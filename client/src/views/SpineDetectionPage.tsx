@@ -13,12 +13,21 @@ const SpineDetectionPage = () => {
 	// 	console.log(responseFiles);
 	// }, [responseFiles]);
 
+	const timeDelay = async (i: number) => {
+		if (i % 2 === 0) {
+			setTimeout(() => {
+				console.log("delay to avoid crashing app");
+			}, 5000);
+		}
+	};
+
 	const handleAnnotateSpines = async (toAnnotate: File[]) => {
 		if (toAnnotate.length > 0) {
 			setNumAnnotated(0);
 			setToAnnotate(toAnnotate.length);
 			setLoading(true);
 			for (let i = 0; i < toAnnotate.length; i++) {
+				await timeDelay(i);
 				const data = new FormData();
 				data.append("file", toAnnotate[i]);
 				await fetch("https://find-spines-api.herokuapp.com/annotate_spines", {
@@ -90,7 +99,7 @@ const SpineDetectionPage = () => {
 							{responseFiles.map((file, idx) => {
 								return (
 									<li
-										className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-48 lg:h-56"
+										className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-32 lg:h-44 xl:h-48"
 										id={URL.createObjectURL(file)}
 										key={idx}
 										onDoubleClick={() =>
