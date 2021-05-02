@@ -59,13 +59,25 @@ The API returns a response in the following format:
 
 ```json
 {
-	"author": "Kristin Hannah",
-	"description": "Despite their differences, sisters Vianne and Isabelle have always been close. Younger, bolder Isabelle lives in Paris while Vianne is content with life in the French countryside with her husband Antoine and their daughter. But when the Second World War strikes, Antoine is sent off to fight and Vianne finds herself isolated so Isabelle is sent by their father to help her. As the war progresses, the sisters' relationship and strength are tested. With life changing in unbelievably horrific ways, Vianne and Isabelle will find themselves facing frightening situations and responding in ways they never thought possible as bravery and resistance take different forms in each of their actions.",
-	"image_url": "https://images.gr-assets.com/books/1451446316m/21853621.jpg",
-	"popular_shelves": " historical-fiction",
-	"tags": " historical-fiction",
-	"title": "The Nightingale",
-	"url": "https://www.goodreads.com/book/show/21853621-the-nightingale"
+	"type": "cors",
+	"url": "https://find-spines-api.herokuapp.com/annotate_spines",
+	"redirected": false,
+	"headers": {},
+	"status": 200,
+	"ok": true,
+	"statusText": "OK",
+	"type": "cors"
+}
+```
+
+And a blob object in the format:
+
+```json
+{
+	"size": 31256,
+    "name": "fileName.jpg",
+    "type": "image/jpeg",
+     ...
 }
 ```
 
