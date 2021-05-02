@@ -21,13 +21,14 @@ const SpineDetectionPage = () => {
 			for (let i = 0; i < toAnnotate.length; i++) {
 				const data = new FormData();
 				data.append("file", toAnnotate[i]);
-				fetch("http://127.0.0.1:5000/annotate_spines", {
+				fetch("https://find-spines-api.herokuapp.com/annotate_spines", {
+					//"http://127.0.0.1:5000/annotate_spines",
 					method: "POST",
 					body: data
 				}).then(response => {
-					// console.log("response: ", response);
+					console.log("response: ", response);
 					response.blob().then(blob => {
-						// console.log("blob: ", blob);
+						console.log("blob: ", blob);
 						let file = new File([blob], `file${i}`, {
 							type: blob.type
 						});
@@ -65,7 +66,7 @@ const SpineDetectionPage = () => {
 				</div>
 			)}
 			<div>
-				<div className="overflow-auto py-3 px-8 w-full h-full flex flex-col">
+				<div className="overflow-y-hidden py-3 px-8 w-full h-full flex flex-col">
 					{numToAnnotate > 0 && (
 						<div className="pb-10">
 							<h1 className="py-2 font-semibold sm:text-lg text-gray-900">
